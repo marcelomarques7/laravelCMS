@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,9 +24,11 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(10);
+        $loggedId = intval(Auth::id());
 
         return view('admin.users.index',[
-            'users' => $users
+            'users' => $users,
+            'loggedId' => $loggedId
         ]);
     }
 
@@ -132,13 +140,10 @@ class UserController extends Controller
             $user->name = $data['name'];
 
             // 2. Alteração do email
-            // 2.1 Primeiro, varificamos se o email foi alterado
             if($user->email != $data['email']){
                 
-                // 2.2 Verificamos se o nome email já existe.
                 $hasEmail = User::where('email', $data['email'])->get();
                 
-                // 2.3 Se não existir, nós alteramos.
                 if(count($hasEmail) === 0){
                     $user->email = $data['email'];
                 } else {
@@ -148,11 +153,8 @@ class UserController extends Controller
                 }
 
             }
-
             // 3. Alteração da senha
-            // 3.1 Verifica se o usuário digitou senha
             if(!empty($data['password'])) {
-                // 3.2 Verifica se a confirmação está OK
                 
                 if(strlen($data['password']) >= 4){
                     if($data['password'] === $data['password_confirmation']){
@@ -177,7 +179,6 @@ class UserController extends Controller
                 ])->withErrors($validator);
             }
 
-
             $user->save();
         }
 
@@ -192,6 +193,13 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $loggedId = intval(Auth::id());
+
+        if($loggedId !== intval($id)) {
+            $user = User::find($id);
+            $user->delete();
+        }
+
+        return redirect()->route('users.index');
     }
 }
