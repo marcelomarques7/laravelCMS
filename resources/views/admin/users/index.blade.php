@@ -5,7 +5,7 @@
 @section('content_header')
     <h1>
         Meus Usuários
-        <a href="{{ route('users.create') }}" class="btn btn-sm btn-success" style="float: right;">Novo Usuário</a>
+        <a href="{{ route('users.create') }}" class="btn btn-sm btn-success float-md-right">Novo Usuário</a>
     </h1>
 @endsection
 

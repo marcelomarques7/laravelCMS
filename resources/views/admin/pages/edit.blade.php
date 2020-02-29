@@ -52,15 +52,15 @@
         </div>
     </div>
 
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/yqvshc6hatwl768raxf47zk1rz12xr73zvjz7oe5ipmswky7/tinymce/5/tinymce.min.js"></script>
     <script>
 
         tinymce.init({
             selector:'textarea.bodyfield',
             height:300,
             menubar:false,
-            plugins:['link', 'table', 'image', 'autoresize', 'lists'],
-            toolbar:'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | table | link image | bullist numlist',
+            plugins:['link', 'table', 'image', 'autoresize', 'lists', 'advcode'],
+            toolbar:'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | table | link image | bullist numlist | code',
             content_css:[
                 '{{asset('assets/css/content.css')}}'
             ],
